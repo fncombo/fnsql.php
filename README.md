@@ -53,7 +53,7 @@ $sql->query('DELETE FROM table WHERE column = ?', $parameter);
 
 ##Settings
 
-By default, PDO::FETCH_ASSOC fetch mode is used. You can modify the fetch mode on either a per-query basis, or globally for all queries.
+By default, `PDO::FETCH_ASSOC` fetch mode is used. You can modify the fetch mode on either a per-query basis, or globally for all queries.
 
 ```php
 // Modify the fetch mode for all queries.
