@@ -9,9 +9,8 @@
 
 class fnsql {
 
-    private
-        $connection,
-        $defaultFetchMode = PDO::FETCH_ASSOC;
+    private $connection;
+    private $defaultFetchMode = PDO::FETCH_ASSOC;
 
     /**
      * Connects to a MySQL database when the class is initiated.
