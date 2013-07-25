@@ -9,11 +9,13 @@
 
 class fnsql {
 
-    private $connection;
+    private $connection = null;
     private $defaultFetchMode = PDO::FETCH_ASSOC;
+    private $credentials = array();
 
     /**
-     * Connects to a MySQL database when the class is initiated.
+     * Constructor.
+     * @constructor
      * @param $host {string} Database server.
      * @param $user {string} Username.
      * @param $password {string} Password.
@@ -22,11 +24,28 @@ class fnsql {
      */
     public function __construct($host, $user, $password, $database, $type = 'mysql') {
 
+        $vars = array('host', 'user', 'password', 'database', 'type');
+
+        foreach ($vars as $var) {
+            $this->credentials[$var] = $$var;
+        };
+
+    }
+
+    /**
+     * Connects to a MySQL database if no connection is yet established.
+     */
+    public function connect() {
+
+        if ($this->connection) {
+            return;
+        };
+
         try {
             $this->connection = new PDO(
-                $type . ":host=" . $host . ";dbname=" . $database,
-                $user,
-                $password,
+                $this->credentials['type'] . ":host=" . $this->credentials['host'] . ";dbname=" . $this->credentials['database'],
+                $this->credentials['user'],
+                $this->credentials['password'],
                 array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
         } catch (PDOException $e) {
@@ -44,6 +63,8 @@ class fnsql {
      * @param $fetchMode {PDO::FETCH_*} PDO fetch mode constant.
      */
     public function query($queryString, $parameters = null, $fetchMode = false) {
+
+        $this->connect();
 
         try {
             $query = $this->connection->prepare($queryString);

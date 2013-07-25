@@ -10,10 +10,16 @@ Include the file in your ... file.
 require_once('fnsql.php');
 ```
 
-Connect to a database.
+Initiate the class.
 
 ```php
 $sql = new fnsql('localhost', 'root', 'password', 'database');
+```
+
+Connection to the database is only established before the the first query. If you would like to connect manually before that, use:
+
+```php
+$sql->connect();
 ```
 
 ##Queries
